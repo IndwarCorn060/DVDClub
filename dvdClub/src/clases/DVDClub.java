@@ -136,7 +136,7 @@ public class DVDClub {
 		boolean f=false;
 		while(!f&&i.hasNext()) {
 			cliente = i.next();
-			if(cliente.getNombre().equals(nombre)) {
+			if(cliente.getNombre().equalsIgnoreCase(nombre)) {
 				f=true;
 			}
 		}
@@ -146,7 +146,7 @@ public class DVDClub {
 		return cliente;
 	}
 	
-	public boolean alquila(String titulo, String nombre) {
+	public boolean alquila(String titulo, String nombre) throws DVDClubException {
 		DVD dvd = sacarPelicula(titulo);
 		if(cliente(nombre)!=null&&!cliente(nombre).tieneDVD(titulo)&&dvd!=null) {
 			return cliente(nombre).alquila(dvd);
@@ -155,17 +155,21 @@ public class DVDClub {
 			if(dvd!=null) {
 				anadirDVD(dvd);
 			}
-			return false;
+			throw new DVDClubException("Película no disponible");
 		}
 	}
 	
-	public boolean devuelve(String titulo, String nombre) {
+	public boolean devuelve(String titulo, String nombre) throws DVDClubException {
 		if(cliente(nombre)!=null&&cliente(nombre).tieneDVD(titulo)) {
 			return anadirDVD(cliente(nombre).devuelve(titulo));
 		}
 		else {
-			System.out.println("error, cliente o pelicula no existente");
-			return false;
+			if(cliente(nombre)==null) {
+				throw new DVDClubException("Cliente no encontrado.");
+			}
+			else {
+				throw new DVDClubException("El cliente no tiene la Pelicula '"+titulo+"'.");
+			}
 		}
 	}
 	
@@ -195,6 +199,7 @@ public class DVDClub {
 			return "Error, cliente no encontrado";
 		}
 	}
+
 	
 	public HashSet<DVD> getPeliculasCliente(String nombre) {
 		if(cliente(nombre)!=null) {
@@ -206,7 +211,6 @@ public class DVDClub {
 			return vacio;
 		}
 	}
-	
 	
 	public TreeSet<DVD> copias(String titulo) {
 		TreeSet<DVD> copias = new TreeSet<DVD>();
