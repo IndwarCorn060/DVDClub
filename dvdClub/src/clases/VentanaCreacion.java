@@ -6,9 +6,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class VentanaCreacion extends JDialog{
+public class VentanaCreacion extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private Vista miVista;
+	private JFrame ventana;
+	private DVDClub club;
+	private Controlador controlador;
 
 	//dialogo para creacion
 	private JLabel crear_etqtNombrePeli, crear_etqtNombreCliente;
@@ -22,8 +27,8 @@ public class VentanaCreacion extends JDialog{
 		this.crear_etqtNombreCliente = new JLabel("Nombre fichero clientes:");
 		this.crear_btnCrear1 = new JButton("Crear DVDClub");
 		this.crear_btnCrear2 = new JButton("Crear DVDClub");
-		this.crear_txtFilePeli = new JTextField(10);
-		this.crear_txtFileCliente = new JTextField(10);
+		this.crear_txtFilePeli = new JTextField("peliculas.txt",10);
+		this.crear_txtFileCliente = new JTextField("clientes.txt",10);
 		this.crear_pNorte = new JPanel();
 		this.crear_pNorte.setLayout(new BoxLayout(this.crear_pNorte, BoxLayout.Y_AXIS));
 		this.crear_pNorte.setBorder(BorderFactory.createTitledBorder("Creacion DVDClub a partir de datos Existentes"));
@@ -34,7 +39,7 @@ public class VentanaCreacion extends JDialog{
 		this.crear_pSur.setBorder(BorderFactory.createTitledBorder("Creacion DVDClub sin datos previos(en Blanco)"));
 	}
 	
-	private void montarComponentes(JPanel cp) {
+	private void montarComponentes(Container cp) {
 		cp.add(this.crear_pNorte);
 			this.crear_pNorte.add(this.crear_pNorte_p1);
 				this.crear_pNorte_p1.add(this.crear_etqtNombrePeli);
@@ -49,37 +54,40 @@ public class VentanaCreacion extends JDialog{
 	}
 	
 	public VentanaCreacion() {
-		this.setModal(true);
-		//super("Creacion DVDClub");
+		super("Creacion DVDClub");
 		this.crearComponentes();
-		//Container cp = this.getContentPane();
-		//cp.setLayout(new BoxLayout(cp, BoxLayout.Y_AXIS));
-		JPanel cp = new JPanel();
+		Container cp = this.getContentPane();
+		//JPanel cp = new JPanel();
+		cp.setLayout(new BoxLayout(cp, BoxLayout.Y_AXIS));
 		this.montarComponentes(cp);
-		this.add(cp);
-		ControlBoton control = new ControlBoton();
-		this.crear_btnCrear1.addActionListener(control);
-		this.crear_btnCrear2.addActionListener(control);
-		
+		this.crear_btnCrear1.addActionListener(this);
+		this.crear_btnCrear2.addActionListener(this);
 		//this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
-	class ControlBoton implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			if(e.getSource()==crear_btnCrear1) {
-				
-			}
-			else if(e.getSource()==crear_btnCrear2) {
-				
-			}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		this.miVista = new Vista();
+		this.ventana = new JFrame("inmoviliaria");
+		ventana.setContentPane(miVista);
+		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ventana.pack();
+		ventana.setResizable(false);
+		ventana.setVisible(true);
+		this.dispose();
+		if(e.getSource()==this.crear_btnCrear1) {
+			this.club = new DVDClub(this.crear_txtFilePeli.getText(),this.crear_txtFileCliente.getText());
 		}
-		
+		else if (e.getSource()==this.crear_btnCrear2) {
+			this.club = new DVDClub();
+		}
+		this.controlador = new Controlador(miVista, this.club);
+		this.miVista.control(this.controlador);
+		this.controlador.actualizar();
 	}
 
 }

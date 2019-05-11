@@ -201,13 +201,13 @@ public class DVDClub {
 	}
 
 	
-	public HashSet<DVD> getPeliculasCliente(String nombre) {
+	public TreeSet<DVD> getPeliculasCliente(String nombre) {
 		if(cliente(nombre)!=null) {
 			return cliente(nombre).getColeccion();
 		}
 		else {
 			System.out.println("Cliente no encontrado");
-			HashSet<DVD> vacio = new HashSet<DVD>();
+			TreeSet<DVD> vacio = new TreeSet<DVD>();
 			return vacio;
 		}
 	}

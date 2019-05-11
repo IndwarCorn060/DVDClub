@@ -5,11 +5,11 @@ import java.util.*;
 public class Cliente implements Comparable<Cliente>{
 	
 	private String nombre;
-	private HashSet<DVD> coleccion;
+	private TreeSet<DVD> coleccion;
 	
 	public Cliente(String nombre) {
 		this.nombre=nombre;
-		this.coleccion=new HashSet<DVD>();
+		this.coleccion=new TreeSet<DVD>();
 	}
 	
 	public String getNombre() {
@@ -20,7 +20,7 @@ public class Cliente implements Comparable<Cliente>{
 		this.nombre = nombre;
 	}
 
-	public HashSet<DVD> getColeccion() {
+	public TreeSet<DVD> getColeccion() {
 		return coleccion;
 	}
 

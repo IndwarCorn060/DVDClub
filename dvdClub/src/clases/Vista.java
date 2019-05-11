@@ -34,16 +34,16 @@ public class Vista extends JPanel{
 	
 	//alquiler peliculas
 	private JLabel pes4_etqtListClien, pes4_etqtListPeli;
-	private JComboBox<Cliente> pes4_boxListClien;
-	private JComboBox<DVD> pes4_boxListPeli;
+	private JComboBox<String> pes4_boxListClien;
+	private JComboBox<String> pes4_boxListPeli;
 	private JButton pes4_btnAlquilar, pes4_btnCancelar;
 	
 	private JPanel pes4, pes4_p1, pes4_p1_p1, pes4_p1_p2, pes4_p1_p3;
 	
 	//devolver pelicula
 	private JLabel pes5_etqtListClien, pes5_etqtListPeli;
-	private JComboBox<Cliente> pes5_boxListClien;
-	private JComboBox<DVD> pes5_boxListPeli;
+	private JComboBox<String> pes5_boxListClien;
+	private JComboBox<String> pes5_boxListPeli;
 	private JButton pes5_btnDevolver, pes5_btnCancelar;
 	
 	private JPanel pes5, pes5_p1, pes5_p1_p1, pes5_p1_p2, pes5_p1_p3;
@@ -54,7 +54,7 @@ public class Vista extends JPanel{
 		this.pes1_txtCodigo = new JTextField(8);
 		this.pes1_txtTitulo = new JTextField(12);
 		this.pes1_txtDirector = new JTextField(12);
-		this.pes1_txtActores = new JTextArea("nombres separados por lienas",3,15);
+		this.pes1_txtActores = new JTextArea("nombres separados por lineas",4,17);
 		this.pes1_txtActores_Scroll = new JScrollPane(this.pes1_txtActores);
 		
 		this.pes1 = new JPanel();
@@ -103,8 +103,8 @@ public class Vista extends JPanel{
 	private void crearComponentesPes4() {
 		this.pes4_etqtListClien = new JLabel("Listado de Clientes");
 		this.pes4_etqtListPeli = new JLabel("Listado de Peliculas");
-		this.pes4_boxListClien = new JComboBox<Cliente>();
-		this.pes4_boxListPeli = new JComboBox<DVD>();
+		this.pes4_boxListClien = new JComboBox<String>();
+		this.pes4_boxListPeli = new JComboBox<String>();
 		this.pes4_btnAlquilar = new JButton("Alquilar");
 		this.pes4_btnCancelar = new JButton("Cancelar");
 		
@@ -112,6 +112,7 @@ public class Vista extends JPanel{
 		this.pes4_p1 = new JPanel();
 		this.pes4_p1.setLayout(new BoxLayout(this.pes4_p1, BoxLayout.Y_AXIS));
 		this.pes4_p1.setBorder(BorderFactory.createTitledBorder("Alquiler de Peliculas"));
+		this.pes4_p1.setPreferredSize(new Dimension(580,150));
 		this.pes4_p1_p1 = new JPanel();
 		this.pes4_p1_p1.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		this.pes4_p1_p2 = new JPanel();
@@ -122,15 +123,16 @@ public class Vista extends JPanel{
 	private void crearComponentesPes5() {
 		this.pes5_etqtListClien = new JLabel("Listado de Clientes");
 		this.pes5_etqtListPeli = new JLabel("Peliculas alquiladas");
-		this.pes5_boxListClien = new JComboBox<Cliente>();
-		this.pes5_boxListPeli = new JComboBox<DVD>();
+		this.pes5_boxListClien = new JComboBox<String>();
+		this.pes5_boxListPeli = new JComboBox<String>();
 		this.pes5_btnDevolver = new JButton("Devolver");
 		this.pes5_btnCancelar = new JButton("Cancelar");
 		
 		this.pes5 = new JPanel();
 		this.pes5_p1 = new JPanel();
 		this.pes5_p1.setLayout(new BoxLayout(this.pes5_p1, BoxLayout.Y_AXIS));
-		this.pes5_p1.setBorder(BorderFactory.createTitledBorder("Alquiler de Peliculas"));
+		this.pes5_p1.setBorder(BorderFactory.createTitledBorder("Devolver Peliculas"));
+		this.pes5_p1.setPreferredSize(new Dimension(580,150));
 		this.pes5_p1_p1 = new JPanel();
 		this.pes5_p1_p1.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		this.pes5_p1_p2 = new JPanel();
@@ -219,11 +221,102 @@ public class Vista extends JPanel{
 	}
 	
 	public Vista() {
-		VentanaCreacion creacion = new VentanaCreacion();
 		this.crearComponentes();
 		this.montarComponentes();
 		this.setPreferredSize(new Dimension(610,350));
 		this.add(this.tabbedPane);
+		
 	}
+	
+	public void control(Controlador c) {
+		this.pes1_btnAnadir.addActionListener(c);
+		this.pes1_btnCancelar.addActionListener(c);
+		this.pes2_btnAnadir.addActionListener(c);
+		this.pes2_btnCancelar.addActionListener(c);
+		this.pes3_btnActualizar.addActionListener(c);
+		this.pes4_btnAlquilar.addActionListener(c);
+		this.pes4_btnCancelar.addActionListener(c);
+		this.pes5_btnDevolver.addActionListener(c);
+		this.pes5_btnCancelar.addActionListener(c);
+		this.pes5_boxListClien.addItemListener(c);
+	}
+
+	public JTextField getPes1_txtCodigo() {
+		return pes1_txtCodigo;
+	}
+
+	public JTextField getPes1_txtTitulo() {
+		return pes1_txtTitulo;
+	}
+
+	public JTextField getPes1_txtDirector() {
+		return pes1_txtDirector;
+	}
+
+	public JTextArea getPes1_txtActores() {
+		return pes1_txtActores;
+	}
+
+	public JTextField getPes2_txtCliente() {
+		return pes2_txtCliente;
+	}
+
+	public JTextArea getPes3_txtDVDDisponibles() {
+		return pes3_txtDVDDisponibles;
+	}
+
+	public JComboBox<String> getPes4_boxListClien() {
+		return pes4_boxListClien;
+	}
+
+	public JComboBox<String> getPes4_boxListPeli() {
+		return pes4_boxListPeli;
+	}
+
+	public JComboBox<String> getPes5_boxListClien() {
+		return pes5_boxListClien;
+	}
+
+	public JComboBox<String> getPes5_boxListPeli() {
+		return pes5_boxListPeli;
+	}
+
+	public JButton getPes1_btnAnadir() {
+		return pes1_btnAnadir;
+	}
+
+	public JButton getPes1_btnCancelar() {
+		return pes1_btnCancelar;
+	}
+
+	public JButton getPes2_btnAnadir() {
+		return pes2_btnAnadir;
+	}
+
+	public JButton getPes2_btnCancelar() {
+		return pes2_btnCancelar;
+	}
+
+	public JButton getPes3_btnActualizar() {
+		return pes3_btnActualizar;
+	}
+
+	public JButton getPes4_btnAlquilar() {
+		return pes4_btnAlquilar;
+	}
+
+	public JButton getPes4_btnCancelar() {
+		return pes4_btnCancelar;
+	}
+
+	public JButton getPes5_btnDevolver() {
+		return pes5_btnDevolver;
+	}
+
+	public JButton getPes5_btnCancelar() {
+		return pes5_btnCancelar;
+	}
+	
+	
 
 }
